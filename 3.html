@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Son 3</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body {
+    height:100%;
+    background:#0a0a0a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  .wrap {
+    text-align:center;
+    color:#f2f2f2;
+    padding:24px;
+  }
+  .label {
+    font-size:14px;
+    letter-spacing:0.15em;
+    text-transform:uppercase;
+    color:#888;
+    margin-bottom:28px;
+  }
+  button#playBtn {
+    width:96px;
+    height:96px;
+    border-radius:50%;
+    border:2px solid #f2f2f2;
+    background:transparent;
+    color:#f2f2f2;
+    font-size:32px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition: background 0.2s ease, transform 0.15s ease;
+  }
+  button#playBtn:active { transform: scale(0.95); }
+  button#playBtn.playing { background:#f2f2f2; color:#0a0a0a; }
+  .hint {
+    margin-top:24px;
+    font-size:13px;
+    color:#666;
+  }
+  audio { display:none; }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="label">Son 3</div>
+    <button id="playBtn" aria-label="Lecture">▶</button>
+    <div class="hint" id="hint">Touchez pour écouter en boucle</div>
+  </div>
+
+  <audio id="player" loop preload="auto">
+    <source src="3.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const audio = document.getElementById('player');
+    const btn = document.getElementById('playBtn');
+    const hint = document.getElementById('hint');
+
+    btn.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play();
+        btn.textContent = '❚❚';
+        btn.classList.add('playing');
+        hint.textContent = 'Lecture en boucle...';
+      } else {
+        audio.pause();
+        btn.textContent = '▶';
+        btn.classList.remove('playing');
+        hint.textContent = 'Touchez pour écouter en boucle';
+      }
+    });
+
+    audio.addEventListener('ended', () => {
+      // loop=true gère déjà la boucle, ceci est une sécurité
+      audio.currentTime = 0;
+      audio.play();
+    });
+  </script>
+</body>
+</html>
